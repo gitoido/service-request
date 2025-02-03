@@ -13,35 +13,31 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    public function __construct(
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column]
+        private ?int       $id = null,
 
-    #[ORM\Column(length: 180)]
-    private ?string $email = null;
+        #[ORM\Column(length: 180)]
+        private ?string    $email = null,
 
-    /**
-     * @var list<string> The user roles
-     */
-    #[ORM\Column]
-    private array $roles = [];
+        /**
+         * @var list<string> The user roles
+         */
+        #[ORM\Column]
+        private array      $roles = [],
 
-    /**
-     * @var string The hashed password
-     */
-    #[ORM\Column]
-    private ?string $password = null;
+        #[ORM\Column]
+        private ?string    $password = null,
 
-    /**
-     * @var Collection<int, ServiceRequest>
-     */
-    #[ORM\OneToMany(targetEntity: ServiceRequest::class, mappedBy: 'user')]
-    private Collection $serviceRequests;
-
-    public function __construct()
+        /**
+         * @var Collection<int, ServiceRequest>
+         */
+        #[ORM\OneToMany(targetEntity: ServiceRequest::class, mappedBy: 'user')]
+        private Collection $serviceRequests = new ArrayCollection(),
+    )
     {
-        $this->serviceRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -68,13 +64,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
+     * @return list<string>
      * @see UserInterface
      *
-     * @return list<string>
      */
     public function getRoles(): array
     {

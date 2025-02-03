@@ -10,26 +10,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ServiceRepository::class)]
 class Service
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    public function __construct(
+        #[ORM\Id]
+        #[ORM\GeneratedValue]
+        #[ORM\Column]
+        private ?int       $id = null,
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+        #[ORM\Column(length: 255)]
+        private ?string    $name = null,
 
-    #[ORM\Column]
-    private ?int $price = null;
+        #[ORM\Column]
+        private ?int       $price = null,
 
-    /**
-     * @var Collection<int, ServiceRequest>
-     */
-    #[ORM\OneToMany(targetEntity: ServiceRequest::class, mappedBy: 'service')]
-    private Collection $serviceRequests;
-
-    public function __construct()
+        /**
+         * @var Collection<int, ServiceRequest>
+         */
+        #[ORM\OneToMany(targetEntity: ServiceRequest::class, mappedBy: 'service')]
+        private Collection $serviceRequests = new ArrayCollection(),
+    )
     {
-        $this->serviceRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
