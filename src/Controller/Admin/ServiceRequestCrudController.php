@@ -2,7 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Service;
 use App\Entity\ServiceRequest;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
@@ -28,8 +30,14 @@ class ServiceRequestCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id'),
-            AssociationField::new('service'),
-            AssociationField::new('user'),
+            AssociationField::new('service')
+                ->formatValue(function (Service $service) {
+                    return $service->getName();
+                }),
+            AssociationField::new('user')
+                ->formatValue(function (User $user) {
+                    return $user->getUserIdentifier();
+                }),
         ];
     }
 }
