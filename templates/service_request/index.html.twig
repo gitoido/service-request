@@ -3,10 +3,28 @@
 {% block title %}Hello ServiceRequestController!{% endblock %}
 
 {% block body %}
-<div class="row justify-content-center">
-    <div class="col-12 col-md-6 col-lg-4 my-5">
-        <h1>Create service request</h1>
-        <twig:service_request_form/>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-4 my-5" {{ stimulus_controller('service-request') }}>
+            <h1 class="header">Create service request</h1>
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success alert-dismissible">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {{ form_start(form) }}
+            {{ form_row(form.service, {
+                attr: stimulus_action('service-request', 'updatePrice', 'input').toArray()
+            }) }}
+            {{ form_row(form.email) }}
+            <div class="mb-3 row">
+                <label class="col-form-label col-sm-2 required">Price</label>
+                <div class="col-sm-10">
+                    <div class="form-text fs-5" {{ stimulus_target('service-request', 'price') }}></div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            {{ form_rest(form) }}
+            {{ form_end(form) }}
+        </div>
     </div>
-</div>
 {% endblock %}

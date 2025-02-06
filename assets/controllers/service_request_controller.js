@@ -1,16 +1,19 @@
-import { Controller } from '@hotwired/stimulus';
+import {Controller} from '@hotwired/stimulus';
 
-/*
- * This is an example Stimulus controller!
- *
- * Any element with a data-controller="hello" attribute will cause
- * this controller to be executed. The name "hello" comes from the filename:
- * hello_controller.js -> "hello"
- *
- * Delete this file or adapt it for your use!
- */
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
+    static targets = ["price", "selectedService"]
+
     connect() {
-        this.element.textContent = 'Hello Stimulus! Edit me in assets/controllers/hello_controller.js';
+        this.updatePrice()
+    }
+
+    updatePrice() {
+        this.priceTarget.innerText = new Intl.NumberFormat(
+            'en-US',
+            {style: 'currency', currency: 'USD'}
+        ).format(
+            this.selectedServiceTarget.selectedOptions[0].dataset.price / 100,
+        );
     }
 }

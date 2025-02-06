@@ -27,8 +27,13 @@ class ServiceRequestFormType extends AbstractType
                 'class' => Service::class,
                 'choice_label' => 'name',
                 'attr' => [
-                    'data-model' => 'selectedService',
-                ]
+                    'data-service-request-target' => 'selectedService',
+                ],
+                'choice_attr' => function ($service): array {
+                    return [
+                        'data-price' => $service->getPrice(),
+                    ];
+                }
             ])
             ->add('email', EmailType::class, [
                 'constraints' => [
