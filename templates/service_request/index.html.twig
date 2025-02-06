@@ -7,7 +7,7 @@
         <div class="col-12 col-md-6 col-lg-4 my-5" {{ stimulus_controller('service-request') }}>
             <h1 class="header">Create service request</h1>
             {% for message in app.flashes('success') %}
-                <div class="alert alert-success alert-dismissible">
+                <div class="alert alert-success">
                     {{ message }}
                 </div>
             {% endfor %}
@@ -22,7 +22,7 @@
                     <div class="form-text fs-5" {{ stimulus_target('service-request', 'price') }}></div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Send new request</button>
             {{ form_rest(form) }}
             {{ form_end(form) }}
         </div>
